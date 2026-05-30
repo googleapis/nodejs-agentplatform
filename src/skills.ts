@@ -10,13 +10,10 @@ import {PagedItem, Pager} from '@google/genai';
 import * as common from '@google/genai/vertex_internal';
 import {ApiClient, BaseModule} from '@google/genai/vertex_internal';
 import * as converters from './converters/_skills_converters.js';
+import {SkillRevisions} from './skillrevisions.js';
 import * as types from './types.js';
 
 export class Skills extends BaseModule {
-  constructor(private readonly apiClient: ApiClient) {
-    super();
-  }
-
   list = async (
     params: types.ListSkillsRequestParameters = {},
   ): Promise<Pager<types.Skill>> => {
@@ -28,6 +25,12 @@ export class Skills extends BaseModule {
     );
   };
 
+  readonly revisions: SkillRevisions;
+
+  constructor(private readonly apiClient: ApiClient) {
+    super();
+    this.revisions = new SkillRevisions(apiClient);
+  }
   /**
    * Creates a new Skill.
    *

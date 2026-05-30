@@ -196,6 +196,30 @@ export enum SkillSource {
   SYSTEM = 'SYSTEM',
 }
 
+/** Output only. The state of the Skill Revision. */
+export enum State {
+  /**
+   * The state of the Skill Revision is unspecified.
+   */
+  STATE_UNSPECIFIED = 'STATE_UNSPECIFIED',
+  /**
+   * The Skill Revision is active.
+   */
+  ACTIVE = 'ACTIVE',
+  /**
+   * The Skill Revision is being created.
+   */
+  CREATING = 'CREATING',
+  /**
+   * The Skill Revision was created, but failed to process.
+   */
+  FAILED = 'FAILED',
+  /**
+   * The Skill Revision is being deleted.
+   */
+  DELETING = 'DELETING',
+}
+
 /** Framework used to build the application. */
 export enum Framework {
   /**
@@ -210,22 +234,6 @@ export enum Framework {
    * Angular framework.
    */
   ANGULAR = 'ANGULAR',
-}
-
-/** Output only. The state of the revision. */
-export enum State {
-  /**
-   * The unspecified state.
-   */
-  STATE_UNSPECIFIED = 'STATE_UNSPECIFIED',
-  /**
-   * Is deployed and ready to be used.
-   */
-  ACTIVE = 'ACTIVE',
-  /**
-   * Is deprecated, may not be used, only preserved for historical purposes.
-   */
-  DEPRECATED = 'DEPRECATED',
 }
 
 /** The strategy to use when applying metadata to existing memories during consolidation. */
@@ -266,6 +274,30 @@ export enum GenerateMemoriesResponseGeneratedMemoryAction {
    * The memory was deleted.
    */
   DELETED = 'DELETED',
+}
+
+/** State of the Skill Revision. */
+export enum SkillRevisionState {
+  /**
+   * The state of the Skill Revision is unspecified.
+   */
+  STATE_UNSPECIFIED = 'STATE_UNSPECIFIED',
+  /**
+   * The Skill Revision is active.
+   */
+  ACTIVE = 'ACTIVE',
+  /**
+   * The Skill Revision is being created.
+   */
+  CREATING = 'CREATING',
+  /**
+   * The Skill Revision was created, but failed to process.
+   */
+  FAILED = 'FAILED',
+  /**
+   * The Skill Revision is being deleted.
+   */
+  DELETING = 'DELETING',
 }
 
 /** Represents an environment variable present in a Container or Python Module. */
@@ -2772,6 +2804,59 @@ export declare interface GetSkillOperationParameters {
   operationName: string;
   /** Used to override the default configuration. */
   config?: GetSkillOperationConfig;
+}
+
+/** Configuration for getting a Skill Revision. */
+export declare interface GetSkillRevisionConfig {
+  /** Used to override HTTP request options. */
+  httpOptions?: genaiTypes.HttpOptions;
+  /** Abort signal to cancel the request. */
+  abortSignal?: AbortSignal;
+}
+
+/** Parameters for getting a Skill Revision. */
+export declare interface GetSkillRevisionRequestParameters {
+  /** The resource name of the Skill Revision to retrieve. Format: projects/{project}/locations/{location}/skills/{skill}/revisions/{revision} */
+  name: string;
+  config?: GetSkillRevisionConfig;
+}
+
+/** A single revision of a Skill. */
+export declare interface SkillRevision {
+  /** Output only. The state of the Skill Revision. */
+  state?: SkillRevisionState;
+  /** Identifier. The resource name of the Skill Revision. Format: `projects/{project}/locations/{location}/skills/{skill}/revisions/{revision}` */
+  name?: string;
+  /** Output only. Timestamp when this Skill Revision was created. */
+  createTime?: string;
+  /** Output only. The state of the Skill at this revision. TODO(b/503772996) Use a different proto for skill data included in skill revision */
+  skill?: Skill;
+}
+
+/** Configuration for listing Skill Revisions. */
+export declare interface ListSkillRevisionsConfig {
+  /** Used to override HTTP request options. */
+  httpOptions?: genaiTypes.HttpOptions;
+  /** Abort signal to cancel the request. */
+  abortSignal?: AbortSignal;
+  pageSize?: number;
+  pageToken?: string;
+}
+
+/** Parameters for ListSkillRevisionsRequest. */
+export declare interface ListSkillRevisionsRequestParameters {
+  /** Required. The name of the Skill to list revisions for. */
+  name: string;
+  config?: ListSkillRevisionsConfig;
+}
+
+/** Response for listing Skill Revisions. */
+export class ListSkillRevisionsResponse {
+  /** Used to retain the full HTTP response. */
+  sdkHttpResponse?: genaiTypes.HttpResponse;
+  nextPageToken?: string;
+  /** List of Skill Revisions. */
+  skillRevisions?: SkillRevision[];
 }
 
 /** An agent engine instance. */
