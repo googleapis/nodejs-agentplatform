@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.0](https://github.com/googleapis/nodejs-vertexai/compare/v0.7.0...v0.8.0) (2026-06-02)
+
+
+### Features
+
+* Add Skill Registry GetSkillRevision and ListSkillRevisions to SDK ([0db8a7f](https://github.com/googleapis/nodejs-vertexai/commit/0db8a7fee594e75a0a6a4c7b0f5dbf2df4e74c20))
+* Add Skill Registry ListSkills and DeleteSkill to SDK ([9826413](https://github.com/googleapis/nodejs-vertexai/commit/98264131407839feab694ad9e3108fd36e1f80d0))
+* Add Skill Registry RetrieveSkills to SDK ([0dd44e3](https://github.com/googleapis/nodejs-vertexai/commit/0dd44e371d77324b1a2745813debaf28d24d9589))
+
 ## [0.7.0](https://github.com/googleapis/nodejs-vertexai/compare/v0.6.0...v0.7.0) (2026-05-21)
 
 
