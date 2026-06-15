@@ -2236,7 +2236,7 @@ export declare interface CreateAgentEngineSessionConfig {
   sessionState?: Record<string, unknown>;
   /** Waits for the operation to complete before returning. */
   waitForCompletion?: boolean;
-  /** Optional. Input only. The TTL for this resource.
+  /** Optional. Input only. The TTL for this resource. It must be positive.
 
       The expiration time is computed: now + TTL. */
   ttl?: string;
