@@ -1212,7 +1212,7 @@ export declare interface CreateAgentEngineMemoryRequestParameters {
 
       Memories are isolated within their scope. The scope is defined when
       creating or generating memories. Up to 5 key-value pairs are accepted,
-      andscope values cannot contain the wildcard character '*'. */
+      and scope values cannot contain the wildcard character '*'. */
   scope: Record<string, string>;
   config?: AgentEngineMemoryConfig;
 }
