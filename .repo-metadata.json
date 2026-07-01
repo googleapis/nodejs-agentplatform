@@ -3,7 +3,7 @@
   "name_pretty": "Google Cloud Vertex AI",
   "release_level": "preview",
   "language": "nodejs",
-  "repo": "googleapis/nodejs-vertexai",
+  "repo": "googleapis/nodejs-agentplatform",
   "distribution_name": "@google-cloud/vertexai",
   "api_id": "aiplatform.googleapis.com",
   "api_shortname": "aiplatform",
