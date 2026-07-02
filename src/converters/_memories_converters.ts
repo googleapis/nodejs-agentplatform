@@ -328,6 +328,56 @@ export function ingestEventsConfigToVertex(
     common.setValueByPath(parentObject, ['forceFlush'], fromForceFlush);
   }
 
+  const fromRevisionLabels = common.getValueByPath(fromObject, [
+    'revisionLabels',
+  ]);
+  if (parentObject !== undefined && fromRevisionLabels != null) {
+    common.setValueByPath(parentObject, ['revisionLabels'], fromRevisionLabels);
+  }
+
+  const fromRevisionExpireTime = common.getValueByPath(fromObject, [
+    'revisionExpireTime',
+  ]);
+  if (parentObject !== undefined && fromRevisionExpireTime != null) {
+    common.setValueByPath(
+      parentObject,
+      ['revisionExpireTime'],
+      fromRevisionExpireTime,
+    );
+  }
+
+  const fromRevisionTtl = common.getValueByPath(fromObject, ['revisionTtl']);
+  if (parentObject !== undefined && fromRevisionTtl != null) {
+    common.setValueByPath(parentObject, ['revisionTtl'], fromRevisionTtl);
+  }
+
+  const fromDisableMemoryRevisions = common.getValueByPath(fromObject, [
+    'disableMemoryRevisions',
+  ]);
+  if (parentObject !== undefined && fromDisableMemoryRevisions != null) {
+    common.setValueByPath(
+      parentObject,
+      ['disableMemoryRevisions'],
+      fromDisableMemoryRevisions,
+    );
+  }
+
+  const fromMetadata = common.getValueByPath(fromObject, ['metadata']);
+  if (parentObject !== undefined && fromMetadata != null) {
+    common.setValueByPath(parentObject, ['metadata'], fromMetadata);
+  }
+
+  const fromMetadataMergeStrategy = common.getValueByPath(fromObject, [
+    'metadataMergeStrategy',
+  ]);
+  if (parentObject !== undefined && fromMetadataMergeStrategy != null) {
+    common.setValueByPath(
+      parentObject,
+      ['metadataMergeStrategy'],
+      fromMetadataMergeStrategy,
+    );
+  }
+
   return toObject;
 }
 
