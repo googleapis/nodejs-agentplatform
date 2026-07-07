@@ -5,9 +5,7 @@
 
 ### Features
 
-* Add response_format and Translation_config in GenerationConfig ([8bdc808](https://github.com/googleapis/nodejs-agentplatform/commit/8bdc808835e8f0d011051e5992b4a763544924c8))
 * Add revision_labels, revision_expire_time, revision_ttl, disable_memory_revisions, metadata, metadata_merge_strategy and overlap_event_count to Memory Bank IngestEvents API ([0e8e285](https://github.com/googleapis/nodejs-agentplatform/commit/0e8e285339034c3bc1ad28cbf55add550afe0d05))
-* Add Tool.exa_ai_search for Gemini Enterprise API ([8bdc808](https://github.com/googleapis/nodejs-agentplatform/commit/8bdc808835e8f0d011051e5992b4a763544924c8))
 * Rename GitHub repo to googleapis/nodejs-agentplatform ([b433d47](https://github.com/googleapis/nodejs-agentplatform/commit/b433d4781d3a06a9a940ce1a749746c8285628a2))
 
 ## [0.8.0](https://github.com/googleapis/nodejs-vertexai/compare/v0.7.0...v0.8.0) (2026-06-02)
