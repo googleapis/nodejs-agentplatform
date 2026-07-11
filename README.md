@@ -48,6 +48,82 @@ const client: Client = new Client({
 });
 ```
 
+## Prompts
+
+First define your prompt as a JS object or `Prompt` object. Then call `createVersion`.
+
+```typescript
+const prompt = {
+  promptData: {
+    contents: [{ parts: [{ text: 'Hello, {name}! How are you?' }] }],
+    systemInstruction: { parts: [{ text: 'Please answer in a short sentence.' }] },
+    variables: [
+      { name: { text: 'Alice' } },
+    ],
+    model: 'gemini-2.5-flash',
+  },
+};
+
+const promptResource = await client.prompts.createVersion({
+  prompt: prompt,
+});
+```
+
+Note that you can also use typed objects to define your prompt. Some of the types used to do this (`Content`, `Part`) are from the Gen AI SDK (`@google/genai`).
+
+```typescript
+import { Prompt } from '@google-cloud/agentplatform';
+import { Part, Content } from '@google/genai';
+
+const prompt: Prompt = {
+  promptData: {
+    contents: [{ parts: [{ text: 'Hello, {name}! How are you?' } as Part] } as Content],
+    systemInstruction: { parts: [{ text: 'Please answer in a short sentence.' } as Part] } as Content,
+    variables: [
+      { name: { text: 'Alice' } as Part },
+    ],
+    model: 'gemini-2.5-flash',
+  },
+};
+
+const promptResource = await client.prompts.createVersion({
+  prompt: prompt,
+});
+```
+
+Retrieve a prompt by calling `get()` with the `promptId`.
+
+```typescript
+const dataset = (promptResource as any)._dataset;
+const promptId = dataset?.name?.split('/').pop() || 'YOUR_PROMPT_ID';
+
+const retrievedPrompt = await client.prompts.get({
+  promptId: promptId,
+});
+```
+
+After creating or retrieving a prompt, you can call `models.generateContent()` with that prompt using the Gen AI SDK (`@google/genai`).
+
+```typescript
+import { GoogleGenAI } from '@google/genai';
+
+// Create a Client in the Gen AI SDK
+const genaiClient = new GoogleGenAI({ vertexai: true, project: 'your-project', location: 'your-location' });
+
+// Call generateContent() with the prompt
+if (retrievedPrompt.promptData?.contents) {
+  const response = await genaiClient.models.generateContent({
+    model: retrievedPrompt.promptData.model || 'gemini-2.5-flash',
+    contents: retrievedPrompt.promptData.contents,
+    config: {
+      systemInstruction: retrievedPrompt.promptData.systemInstruction,
+      ...(retrievedPrompt.promptData.generationConfig || {}),
+    },
+  });
+  console.log(response.text);
+}
+```
+
 ## License
 
 The contents of this repository are licensed under the

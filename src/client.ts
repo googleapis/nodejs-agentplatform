@@ -7,6 +7,7 @@ import {ApiClient, NodeAuth, NodeDownloader, NodeUploader,} from '@google/genai/
 
 import {AgentEngines} from './agentengines';
 import {Skills} from './skills';
+import {Prompts} from './prompts';
 
 export const SDK_VERSION = '0.9.0';  // x-release-please-version
 
@@ -16,6 +17,7 @@ export class Client {
   protected readonly apiClient: ApiClient;
   public readonly _agentEnginesInternal: AgentEngines;
   public readonly skills: Skills;
+  public readonly prompts: Prompts;
 
   constructor(
       options: {project?: string; location?: string; apiEndpoint?: string;}) {
@@ -61,6 +63,7 @@ export class Client {
 
     this._agentEnginesInternal = new AgentEngines(this.apiClient);
     this.skills = new Skills(this.apiClient);
+    this.prompts = new Prompts(this.apiClient);
   }
 
   /**
