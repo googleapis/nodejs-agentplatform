@@ -9,7 +9,7 @@ import {AgentEngines} from './agentengines';
 import {Skills} from './skills';
 import {Prompts} from './prompts';
 
-export const SDK_VERSION = '0.9.0';  // x-release-please-version
+export const SDK_VERSION = '0.10.0';  // x-release-please-version
 
 let agentEnginesInternalWarned = false;
 

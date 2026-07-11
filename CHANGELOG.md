@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.0](https://github.com/googleapis/nodejs-agentplatform/compare/v0.9.0...v0.10.0) (2026-07-11)
+
+
+### Features
+
+* BREAKING CHANGE - Upgrade minimum required Node version to Node 22. Context: https://docs.cloud.google.com/nodejs/getting-started/supported-nodejs-versions ([0697f79](https://github.com/googleapis/nodejs-agentplatform/commit/0697f796869fb5b9658ac2ef2fc897c49c850609))
+* Support Prompt Management in the JS GenAI Modules ([fea5496](https://github.com/googleapis/nodejs-agentplatform/commit/fea549669da0d47b681503668ef137981f714445))
+
 ## [0.9.0](https://github.com/googleapis/nodejs-agentplatform/compare/v0.8.0...v0.9.0) (2026-07-07)
 
 
