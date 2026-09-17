@@ -166,6 +166,10 @@ export enum SandboxState {
    * Sandbox runtime is resuming.
    */
   STATE_RESUMING = 'STATE_RESUMING',
+  /**
+   * Sandbox runtime is stopping.
+   */
+  STATE_STOPPING = 'STATE_STOPPING',
 }
 
 /** Protocol for port. Defaults to TCP if not specified. */
@@ -1672,6 +1676,8 @@ export declare interface Memory {
   memoryType?: MemoryType;
   /** Optional. Represents the structured content of the memory. */
   structuredContent?: MemoryStructuredContent;
+  /** Optional. Represents the context of the memory. */
+  context?: string;
 }
 
 /** Operation that has a memory as a response. */
@@ -2277,6 +2283,8 @@ export declare interface MemoryRevision {
   name?: string;
   /** Output only. Represents the structured value of the memory at the time of revision creation. */
   structuredData?: Record<string, unknown>;
+  /** Output only. Represents the context of the Memory Revision. The context may include context from both the historical revisions and the extracted content. */
+  context?: string;
 }
 
 /** Config for listing memory revisions. */
@@ -2324,7 +2332,7 @@ export declare interface SandboxEnvironmentSpecCodeExecutionEnvironment {
 /** The computer use environment with customized settings. */
 export declare interface SandboxEnvironmentSpecComputerUseEnvironment {}
 
-/** The shell environment with customized settings. */
+/** The shell environment. */
 export declare interface SandboxEnvironmentSpecShellEnvironment {}
 
 /** The specification of a sandbox environment. */
@@ -2333,8 +2341,10 @@ export declare interface SandboxEnvironmentSpec {
   codeExecutionEnvironment?: SandboxEnvironmentSpecCodeExecutionEnvironment;
   /** Optional. The computer use environment. */
   computerUseEnvironment?: SandboxEnvironmentSpecComputerUseEnvironment;
-  /** Optional. The shell environment. */
+  /** Optional. The shell environment for executing shell commands and scripts. */
   shellEnvironment?: SandboxEnvironmentSpecShellEnvironment;
+  /** Optional. Immutable. Whether to provision the SandboxEnvironment via the GKE TD pool. Immutable. */
+  useGkeTd?: boolean;
 }
 
 /** Config for creating a Sandbox. */
@@ -2661,9 +2671,9 @@ export declare interface SandboxEnvironmentTemplateDefaultContainerEnvironment {
 export declare interface SandboxEnvironmentTemplateEgressControlConfigDnsPeeringConfig {
   /** Required. The DNS name suffix of the zone being peered to, e.g., "my-internal-domain.corp.". Must end with a dot. */
   domain?: string;
-  /** Required. The VPC network name in the target_project where the DNS zone specified by 'domain' is visible. */
+  /** Required. The VPC network name in the target_project where the DNS zone specified by `domain` is visible. */
   targetNetwork?: string;
-  /** Required. The project ID hosting the Cloud DNS managed zone that contains the 'domain'. The Vertex AI Service Agent requires the dns.peer role on this project. */
+  /** Required. The project ID hosting the Cloud DNS managed zone that contains the `domain`. The Vertex AI Service Agent requires the dns.peer role on this project. */
   targetProject?: string;
 }
 
@@ -2671,11 +2681,9 @@ export declare interface SandboxEnvironmentTemplateEgressControlConfigDnsPeering
 export declare interface SandboxEnvironmentTemplateEgressControlConfig {
   /** Optional. Whether to allow internet access. */
   internetAccess?: boolean;
-  /** Optional. The customer VPC network that sandbox egress is routed into. */
-  customerVpcNetwork?: string;
   /** Optional. DNS peering configurations that allow sandbox egress to resolve customer-internal domains via the customer VPC. */
   dnsPeeringConfigs?: SandboxEnvironmentTemplateEgressControlConfigDnsPeeringConfig[];
-  /** Optional. The name of the customer VPC NetworkAttachment used to draw a PSC interface IP into the customer VPC for sandbox egress. */
+  /** Optional. The name of the customer VPC `NetworkAttachment` used to draw a PSC interface IP into the customer VPC for sandbox egress. */
   networkAttachment?: string;
 }
 
@@ -2761,6 +2769,8 @@ export declare interface SandboxEnvironmentTemplate {
   updateTime?: string;
   /** Optional. The configuration for private ingress (PSC-E) of this template. When set, the sandbox router is exposed privately via a PSC service attachment so VPC-SC customers can connect from their VPC over a private endpoint instead of the public internet. The resulting service attachment is surfaced on `SandboxEnvironment.connection_info.service_attachment`. Only the PSC-E (service-attachment/ingress) portion of `PrivateServiceConnectConfig` applies here: `enable_private_service_connect` and `project_allowlist` (the consumer projects allowed to connect). The nested `psc_interface_config` (PSC-I / egress) is not used for sandbox ingress; sandbox egress is configured via `egress_control_config` instead. */
   ingressControlConfig?: PrivateServiceConnectConfig;
+  /** Optional. Immutable. Whether to provision the SandboxEnvironmentTemplate via the GKE TD pool. */
+  useGkeTd?: boolean;
 }
 
 /** Operation that has an agent engine sandbox as a response. */
@@ -2923,6 +2933,8 @@ export declare interface SandboxEnvironmentSnapshot {
   ttl?: string;
   /** Output only. The timestamp when this SandboxEnvironment was most recently updated. */
   updateTime?: string;
+  /** Output only. Whether the source SandboxEnvironment uses the GKE TD pool. */
+  useGkeTd?: boolean;
 }
 
 /** Operation that has an agent engine sandbox snapshot as a response. */
@@ -3753,6 +3765,8 @@ export declare interface SchemaPromptSpecAppBuilderData {
   framework?: Framework;
   /** Linked resources attached to the application by the user. */
   linkedResources?: SchemaPromptSpecAppBuilderDataLinkedResource[];
+  /** Optional. The Cloud Run regions in which the application is currently deployed. Used to rediscover and redeploy the app in the regions it already runs in, which may differ from the prompt's location. */
+  deployedRegions?: string[];
 }
 
 /** Defines data for an interaction prompt. */
