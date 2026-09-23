@@ -687,6 +687,18 @@ export function reasoningEngineFromVertex(
     common.setValueByPath(toObject, ['trafficConfig'], fromTrafficConfig);
   }
 
+  const fromRevisionGarbageCollectionStrategy = common.getValueByPath(
+    fromObject,
+    ['revisionGarbageCollectionStrategy'],
+  );
+  if (fromRevisionGarbageCollectionStrategy != null) {
+    common.setValueByPath(
+      toObject,
+      ['revisionGarbageCollectionStrategy'],
+      fromRevisionGarbageCollectionStrategy,
+    );
+  }
+
   return toObject;
 }
 

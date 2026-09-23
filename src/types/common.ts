@@ -951,6 +951,18 @@ export declare interface ReasoningEngineTrafficConfig {
   trafficSplitManual?: ReasoningEngineTrafficConfigTrafficSplitManual;
 }
 
+/** Keeps only the latest N Runtime Revisions active. */
+export declare interface ReasoningEngineRevisionGarbageCollectionStrategyKeepNLatest {
+  /** Required. Specifies the maximum number of Runtime Revisions to keep active. If an update to Reasoning Engine would result in exceeding this number of active Runtime Revisions, a new Runtime Revision will be created, while the oldest Runtime Revision will be automatically deleted, providing it's not configured to serve traffic via `traffic_config`. If the oldest Runtime Revision is configured to serve traffic, the update will fail validation. No changes will be made to the Reasoning Engine, existing Runtime Revisions, and no new Runtime Revision will be created. */
+  maxRevisions?: number;
+}
+
+/** Configures garbage collection of Runtime Revisions. */
+export declare interface ReasoningEngineRevisionGarbageCollectionStrategy {
+  /** Optional. Keeps only the latest N Runtime Revisions active. */
+  keepNLatest?: ReasoningEngineRevisionGarbageCollectionStrategyKeepNLatest;
+}
+
 /** An agent engine. */
 export declare interface ReasoningEngine {
   /** Customer-managed encryption key spec for a ReasoningEngine. If set, this ReasoningEngine and all sub-resources of this ReasoningEngine will be secured by this key. */
@@ -975,6 +987,8 @@ export declare interface ReasoningEngine {
   updateTime?: string;
   /** Optional. Traffic distribution configuration for the Reasoning Engine. */
   trafficConfig?: ReasoningEngineTrafficConfig;
+  /** Optional. Configures garbage collection of Runtime Revisions. */
+  revisionGarbageCollectionStrategy?: ReasoningEngineRevisionGarbageCollectionStrategy;
 }
 
 /** Operation that has an agent engine as a response. */
