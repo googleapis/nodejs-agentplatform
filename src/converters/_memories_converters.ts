@@ -361,6 +361,11 @@ export function memoryConfigToVertex(
     common.setValueByPath(parentObject, ['_query', 'memoryId'], fromMemoryId);
   }
 
+  const fromContext = common.getValueByPath(fromObject, ['context']);
+  if (parentObject !== undefined && fromContext != null) {
+    common.setValueByPath(parentObject, ['context'], fromContext);
+  }
+
   return toObject;
 }
 
@@ -583,6 +588,11 @@ export function updateMemoryConfigToVertex(
   const fromMemoryId = common.getValueByPath(fromObject, ['memoryId']);
   if (parentObject !== undefined && fromMemoryId != null) {
     common.setValueByPath(parentObject, ['_query', 'memoryId'], fromMemoryId);
+  }
+
+  const fromContext = common.getValueByPath(fromObject, ['context']);
+  if (parentObject !== undefined && fromContext != null) {
+    common.setValueByPath(parentObject, ['context'], fromContext);
   }
 
   const fromUpdateMask = common.getValueByPath(fromObject, ['updateMask']);

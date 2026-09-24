@@ -1627,6 +1627,8 @@ export declare interface MemoryConfig {
   metadata?: Record<string, MemoryMetadataValue>;
   /** Optional. The user defined ID to use for memory, which will become the final component of the memory resource name. If not provided, Vertex AI will generate a value for this ID. This value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The first character must be a letter, and the last character must be a letter or number. */
   memoryId?: string;
+  /** Optional. Represents the context of the memory. */
+  context?: string;
 }
 
 /** Parameters for creating Memories. */
@@ -2167,6 +2169,8 @@ export declare interface UpdateMemoryConfig {
   metadata?: Record<string, MemoryMetadataValue>;
   /** Optional. The user defined ID to use for memory, which will become the final component of the memory resource name. If not provided, Vertex AI will generate a value for this ID. This value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The first character must be a letter, and the last character must be a letter or number. */
   memoryId?: string;
+  /** Optional. Represents the context of the memory. */
+  context?: string;
   /** The update mask to apply. For the `FieldMask` definition, see
       https://protobuf.dev/reference/protobuf/google.protobuf/#field-mask. */
   updateMask?: string;
