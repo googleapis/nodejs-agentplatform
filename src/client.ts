@@ -10,7 +10,7 @@ import {Sandboxes} from './sandboxes';
 import {Skills} from './skills';
 import {Prompts} from './prompts';
 
-export const SDK_VERSION = '0.13.0';  // x-release-please-version
+export const SDK_VERSION = '0.14.0';  // x-release-please-version
 
 let agentEnginesInternalWarned = false;
 

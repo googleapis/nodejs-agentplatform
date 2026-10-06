@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/googleapis/nodejs-agentplatform/compare/v0.13.0...v0.14.0) (2026-10-06)
+
+
+### Features
+
+* update discovery doc ([02f46ad](https://github.com/googleapis/nodejs-agentplatform/commit/02f46ad3e4136594b890a4b0adeecd78dd3a3cd8))
+
 ## [0.13.0](https://github.com/googleapis/nodejs-agentplatform/compare/v0.12.0...v0.13.0) (2026-09-23)
 
 
