@@ -2763,6 +2763,16 @@ export declare interface CreateSandboxEnvironmentTemplateRequestParameters {
   config?: CreateSandboxEnvironmentTemplateConfig;
 }
 
+/** Configuration for attaching a persistent disk (PD) to each SandboxEnvironment created from this template. A persistent disk provides durable, per-sandbox block storage whose contents survive across the sandbox lifecycle events that this service supports (e.g. pause/resume), unlike ephemeral local storage which is lost when the underlying runtime is torn down. */
+export declare interface SandboxEnvironmentTemplatePersistentDiskConfig {
+  /** Optional. Whether a persistent disk is attached to sandboxes created from this template. Defaults to `false`. This flag lets a template carry (and preserve) disk configuration while keeping the disk detached, so it can be toggled on later without re-specifying the rest of the config. When `false`, the remaining fields in this message are ignored. */
+  enabled?: boolean;
+  /** Optional. The absolute path inside the sandbox container at which the persistent disk is mounted. Defaults to `/workspace` when unset. Ignored when `enabled` is `false`. Only writes beneath this path land on the disk. Writes elsewhere go to the container's writable layer, which counts against the container's ephemeral storage and is lost when the sandbox's runtime is torn down, so this should be the directory the workload actually writes to. Paths that would shadow the container's system directories (for example `/etc`, `/proc`, or `/usr` itself) are rejected. */
+  mountPath?: string;
+  /** Optional. The size of the persistent disk in GB. Must be non-negative. When `enabled` is `true`, a positive value is required; when unset or zero while enabled, the service applies a default size. Ignored when `enabled` is `false`. */
+  sizeGb?: string;
+}
+
 /** A sandbox environment template. */
 export declare interface SandboxEnvironmentTemplate {
   /** Output only. The timestamp when this SandboxEnvironmentTemplate was created. */
@@ -2785,6 +2795,8 @@ export declare interface SandboxEnvironmentTemplate {
   ingressControlConfig?: PrivateServiceConnectConfig;
   /** Optional. Immutable. Whether to provision the SandboxEnvironmentTemplate via the GKE TD pool. */
   useGkeTd?: boolean;
+  /** Optional. Configuration for attaching a persistent disk (PD) to each SandboxEnvironment created from this template. When unset (or when `enabled` is `false`), sandboxes created from this template are not backed by a persistent disk and rely on ephemeral storage only. See PersistentDiskConfig for details. */
+  persistentDiskConfig?: SandboxEnvironmentTemplatePersistentDiskConfig;
 }
 
 /** Operation that has an agent engine sandbox as a response. */
