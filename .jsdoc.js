@@ -31,7 +31,7 @@ module.exports = {
     'jsdoc-region-tag'
   ],
   source: {
-    excludePattern: '(^|\\/|\\\\)[._]',
+    excludePattern: '(^|\\/|\\\\)[._][^\\/\\\\]*$',
     include: [
       'build/src',
     ],
@@ -41,7 +41,7 @@ module.exports = {
     copyright: 'Copyright 2023 Google LLC',
     includeDate: false,
     sourceFiles: false,
-    systemName: '@google-cloud/vertexai',
+    systemName: '@google-cloud/agentplatform',
     theme: 'lumen',
     default: {
       outputSourceFiles: false

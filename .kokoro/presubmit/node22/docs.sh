@@ -22,17 +22,18 @@ if [[ -z "$CREDENTIALS" ]]; then
   # and don't set NPM_CONFIG_PREFIX.
   export NPM_CONFIG_PREFIX=${HOME}/.npm-global
   export PATH="$PATH:${NPM_CONFIG_PREFIX}/bin"
-  cd $(dirname $0)/../..
+  cd $(dirname $0)/../../..
 fi
 
 npm install
-npm install --no-save @google-cloud/cloud-rad@^0.4.0
+npm install --no-save @google-cloud/cloud-rad@^0.4.12
 
 # Switch to 'fail at end' to allow tar command to complete before exiting.
 set +e
 
 # publish docs to devsite
 NO_UPLOAD=1 npx @google-cloud/cloud-rad . cloud-rad
+EXIT=$?
 
 tar cvfz docs.tar.gz yaml
 
