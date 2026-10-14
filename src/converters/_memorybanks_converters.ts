@@ -799,3 +799,51 @@ export function structuredMemorySchemaConfigToVertex(
 
   return toObject;
 }
+
+export function updateMemoryBankConfigToVertex(
+  fromObject: types.UpdateMemoryBankConfig,
+  parentObject: Record<string, unknown>,
+): Record<string, unknown> {
+  const toObject: Record<string, unknown> = {};
+
+  const fromDisplayName = common.getValueByPath(fromObject, ['displayName']);
+  if (parentObject !== undefined && fromDisplayName != null) {
+    common.setValueByPath(parentObject, ['displayName'], fromDisplayName);
+  }
+
+  const fromDescription = common.getValueByPath(fromObject, ['description']);
+  if (parentObject !== undefined && fromDescription != null) {
+    common.setValueByPath(parentObject, ['description'], fromDescription);
+  }
+
+  return toObject;
+}
+
+export function updateMemoryBankRequestParametersToVertex(
+  fromObject: types.UpdateMemoryBankRequestParameters,
+): Record<string, unknown> {
+  const toObject: Record<string, unknown> = {};
+
+  const fromName = common.getValueByPath(fromObject, ['name']);
+  if (fromName != null) {
+    common.setValueByPath(toObject, ['_url', 'name'], fromName);
+  }
+
+  const fromMemoryBankConfig = common.getValueByPath(fromObject, [
+    'memoryBankConfig',
+  ]);
+  if (fromMemoryBankConfig != null) {
+    common.setValueByPath(
+      toObject,
+      ['context_spec', 'memory_bank_config'],
+      reasoningEngineContextSpecMemoryBankConfigToVertex(fromMemoryBankConfig),
+    );
+  }
+
+  const fromConfig = common.getValueByPath(fromObject, ['config']);
+  if (fromConfig != null) {
+    updateMemoryBankConfigToVertex(fromConfig, toObject);
+  }
+
+  return toObject;
+}

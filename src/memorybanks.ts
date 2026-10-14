@@ -63,6 +63,49 @@ export class MemoryBanks extends BaseModule {
     }
   }
 
+  async updateInternal(
+    params: types.UpdateMemoryBankRequestParameters,
+  ): Promise<types.MemoryBankOperation> {
+    let response: Promise<types.MemoryBankOperation>;
+
+    let path: string = '';
+    let queryParams: Record<string, string> = {};
+    if (this.apiClient.isVertexAI()) {
+      const body = converters.updateMemoryBankRequestParametersToVertex(params);
+      path = common.formatMap(
+        '{name}',
+        body['_url'] as Record<string, unknown>,
+      );
+      queryParams = body['_query'] as Record<string, string>;
+      delete body['_url'];
+      delete body['_query'];
+      delete body['config'];
+
+      response = this.apiClient
+        .request({
+          path: path,
+          queryParams: queryParams,
+          body: JSON.stringify(body),
+          httpMethod: 'PATCH',
+          httpOptions: params.config?.httpOptions,
+          abortSignal: params.config?.abortSignal,
+        })
+        .then((httpResponse) => {
+          return httpResponse.json();
+        }) as Promise<types.MemoryBankOperation>;
+
+      return response.then((apiResponse) => {
+        const resp = converters.memoryBankOperationFromVertex(apiResponse);
+
+        return resp as types.MemoryBankOperation;
+      });
+    } else {
+      throw new Error(
+        'This method is only supported by the Gemini Enterprise Agent Platform (previously known as Vertex AI).',
+      );
+    }
+  }
+
   async deleteInternal(
     params: types.DeleteMemoryBankRequestParameters,
   ): Promise<types.DeleteMemoryBankOperation> {

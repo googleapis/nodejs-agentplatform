@@ -1410,6 +1410,35 @@ export declare interface MemoryBankOperation {
   response?: MemoryBank;
 }
 
+/** Config for updating a memory bank. */
+export declare interface UpdateMemoryBankConfig {
+  /** Used to override HTTP request options. */
+  httpOptions?: genaiTypes.HttpOptions;
+  /** Abort signal which can be used to cancel the request.
+
+  NOTE: AbortSignal is a client-only operation. Using it to cancel an
+  operation will not cancel the request in the service. You will still
+  be charged usage for any applicable operations.
+       */
+  abortSignal?: AbortSignal;
+  /** The user-defined name of the Memory Bank.
+
+      The display name can be up to 128 characters long and can comprise any
+      UTF-8 characters.
+       */
+  displayName?: string;
+  /** The description of the Memory Bank. */
+  description?: string;
+}
+
+/** Parameters for updating memory banks. */
+export declare interface UpdateMemoryBankRequestParameters {
+  /** Name of the memory bank. */
+  name: string;
+  memoryBankConfig?: ReasoningEngineContextSpecMemoryBankConfig;
+  config?: UpdateMemoryBankConfig;
+}
+
 /** Config for delete memory bank. */
 export declare interface DeleteMemoryBankConfig {
   /** Used to override HTTP request options. */
