@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.0](https://github.com/googleapis/nodejs-agentplatform/compare/v0.14.0...v0.15.0) (2026-10-14)
+
+
+### Features
+
+* Add client.memory_banks.update method. ([3c75182](https://github.com/googleapis/nodejs-agentplatform/commit/3c75182fc768ff9bd99cfb914fe1fc7583988d50))
+
 ## [0.14.0](https://github.com/googleapis/nodejs-agentplatform/compare/v0.13.0...v0.14.0) (2026-10-06)
 
 
