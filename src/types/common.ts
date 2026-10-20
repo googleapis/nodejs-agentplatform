@@ -3830,6 +3830,224 @@ export declare interface SchemaPromptSpecInteractionData {
   interactionIds?: string[];
 }
 
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export declare interface GoogleTypeDate {
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+}
+
+/** A citation for a piece of generatedcontent. */
+export declare interface Citation {
+  /** Output only. The end index of the citation in the content. */
+  endIndex?: number;
+  /** Output only. The license of the source of the citation. */
+  license?: string;
+  /** Output only. The publication date of the source of the citation. */
+  publicationDate?: GoogleTypeDate;
+  /** Output only. The start index of the citation in the content. */
+  startIndex?: number;
+  /** Output only. The title of the source of the citation. */
+  title?: string;
+  /** Output only. The URI of the source of the citation. */
+  uri?: string;
+}
+
+/** A collection of citations that apply to a piece of generated content. */
+export declare interface CitationMetadata {
+  /** Output only. A list of citations for the content. */
+  citations?: Citation[];
+}
+
+/** An `Image` chunk is a piece of evidence that comes from an image search result. It contains the URI of the image search result and the URI of the image. This is used to provide the user with a link to the source of the information. */
+export declare interface GroundingChunkImage {
+  /** The domain of the image search result page. */
+  domain?: string;
+  /** The URI of the image. */
+  imageUri?: string;
+  /** The URI of the image search result page. */
+  sourceUri?: string;
+  /** The title of the image search result page. */
+  title?: string;
+}
+
+/** A review snippet that is used to generate the answer. */
+export declare interface GroundingChunkMapsPlaceAnswerSourcesReviewSnippet {
+  /** A link to show the review on Google Maps. */
+  googleMapsUri?: string;
+  /** The ID of the review that is being referenced. */
+  reviewId?: string;
+  /** The title of the review. */
+  title?: string;
+}
+
+/** The sources that were used to generate the place answer. This includes review snippets and photos that were used to generate the answer, as well as URIs to flag content. */
+export declare interface GroundingChunkMapsPlaceAnswerSources {
+  /** Snippets of reviews that were used to generate the answer. */
+  reviewSnippets?: GroundingChunkMapsPlaceAnswerSourcesReviewSnippet[];
+}
+
+/** Route information from Google Maps. */
+export declare interface GroundingChunkMapsRoute {
+  /** The total distance of the route, in meters. */
+  distanceMeters?: number;
+  /** The total duration of the route. */
+  duration?: string;
+  /** An encoded polyline of the route. See https://developers.google.com/maps/documentation/utilities/polylinealgorithm */
+  encodedPolyline?: string;
+}
+
+/** A `Maps` chunk is a piece of evidence that comes from Google Maps, containing information about places or routes. This is used to provide the user with rich, location-based information. */
+export declare interface GroundingChunkMaps {
+  /** The sources that were used to generate the place answer. This includes review snippets and photos that were used to generate the answer, as well as URIs to flag content. */
+  placeAnswerSources?: GroundingChunkMapsPlaceAnswerSources;
+  /** This Place's resource name, in `places/{place_id}` format. This can be used to look up the place in the Google Maps API. */
+  placeId?: string;
+  /** Output only. Route information. */
+  route?: GroundingChunkMapsRoute;
+  /** The text of the place answer. */
+  text?: string;
+  /** The title of the place. */
+  title?: string;
+  /** The URI of the place. */
+  uri?: string;
+}
+
+/** Represents where the chunk starts and ends in the document. */
+export declare interface RagChunkPageSpan {
+  /** Page where chunk starts in the document. Inclusive. 1-indexed. */
+  firstPage?: number;
+  /** Page where chunk ends in the document. Inclusive. 1-indexed. */
+  lastPage?: number;
+}
+
+/** A RagChunk includes the content of a chunk of a RagFile, and associated metadata. */
+export declare interface RagChunk {
+  /** The ID of the chunk. */
+  chunkId?: string;
+  /** The ID of the file that the chunk belongs to. */
+  fileId?: string;
+  /** If populated, represents where the chunk starts and ends in the document. */
+  pageSpan?: RagChunkPageSpan;
+  /** The content of the chunk. */
+  text?: string;
+}
+
+/** Context retrieved from a data source to ground the model's response. This is used when a retrieval tool fetches information from a user-provided corpus or a public dataset. */
+export declare interface GroundingChunkRetrievedContext {
+  /** Output only. The full resource name of the referenced Vertex AI Search document. This is used to identify the specific document that was retrieved. The format is `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. */
+  documentName?: string;
+  /** Additional context for a Retrieval-Augmented Generation (RAG) retrieval result. This is populated only when the RAG retrieval tool is used. */
+  ragChunk?: RagChunk;
+  /** The content of the retrieved data source. */
+  text?: string;
+  /** The title of the retrieved data source. */
+  title?: string;
+  /** The URI of the retrieved data source. */
+  uri?: string;
+}
+
+/** A `Web` chunk is a piece of evidence that comes from a web page. It contains the URI of the web page, the title of the page, and the domain of the page. This is used to provide the user with a link to the source of the information. */
+export declare interface GroundingChunkWeb {
+  /** The domain of the web page that contains the evidence. This can be used to filter out low-quality sources. */
+  domain?: string;
+  /** The title of the web page that contains the evidence. */
+  title?: string;
+  /** The URI of the web page that contains the evidence. */
+  uri?: string;
+}
+
+/** A piece of evidence that supports a claim made by the model. This is used to show a citation for a claim made by the model. When grounding is enabled, the model returns a `GroundingChunk` that contains a reference to the source of the information. */
+export declare interface GroundingChunk {
+  /** A grounding chunk from an image search result. See the `Image` message for details. */
+  image?: GroundingChunkImage;
+  /** A grounding chunk from Google Maps. See the `Maps` message for details. */
+  maps?: GroundingChunkMaps;
+  /** A grounding chunk from a data source retrieved by a retrieval tool, such as Vertex AI Search. See the `RetrievedContext` message for details */
+  retrievedContext?: GroundingChunkRetrievedContext;
+  /** A grounding chunk from a web page, typically from Google Search. See the `Web` message for details. */
+  web?: GroundingChunkWeb;
+}
+
+/** A segment of the content. */
+export declare interface Segment {
+  /** Output only. The end index of the segment in the `Part`, measured in bytes. This marks the end of the segment and is exclusive, meaning the segment includes content up to, but not including, the byte at this index. */
+  endIndex?: number;
+  /** Output only. The index of the `Part` object that this segment belongs to. This is useful for associating the segment with a specific part of the content. */
+  partIndex?: number;
+  /** Output only. The start index of the segment in the `Part`, measured in bytes. This marks the beginning of the segment and is inclusive, meaning the byte at this index is the first byte of the segment. */
+  startIndex?: number;
+  /** Output only. The text of the segment. */
+  text?: string;
+}
+
+/** A collection of supporting references for a segment or part of the model's response. */
+export declare interface GroundingSupport {
+  /** The confidence scores for the support references. This list is parallel to the `grounding_chunk_indices` list. A score is a value between 0.0 and 1.0, with a higher score indicating a higher confidence that the reference supports the claim. For Gemini 2.0 and before, this list has the same size as `grounding_chunk_indices`. For Gemini 2.5 and later, this list is empty and should be ignored. */
+  confidenceScores?: number[];
+  /** A list of indices into the `grounding_chunks` field of the `GroundingMetadata` message. These indices specify which grounding chunks support the claim made in the content segment. For example, if this field has the values `[1, 3]`, it means that `grounding_chunks[1]` and `grounding_chunks[3]` are the sources for the claim in the content segment. */
+  groundingChunkIndices?: number[];
+  /** Indices into the `rendered_parts` field of the `GroundingMetadata` message. These indices specify which rendered parts are associated with this support message. */
+  renderedParts?: number[];
+  /** The content segment that this support message applies to. */
+  segment?: Segment;
+}
+
+/** Metadata related to the retrieval grounding source. This is part of the `GroundingMetadata` returned when grounding is enabled. */
+export declare interface RetrievalMetadata {
+  /** Optional. A score indicating how likely it is that a Google Search query could help answer the prompt. The score is in the range of `[0, 1]`. A score of 1 means the model is confident that a search will be helpful, and 0 means it is not. This score is populated only when Google Search grounding and dynamic retrieval are enabled. The score is used to determine whether to trigger a search. */
+  googleSearchDynamicRetrievalScore?: number;
+}
+
+/** An entry point for displaying Google Search results. A `SearchEntryPoint` is populated when the grounding source for a model's response is Google Search. It provides information that you can use to display the search results in your application. */
+export declare interface SearchEntryPoint {
+  /** Optional. An HTML snippet that can be embedded in a web page or an application's webview. This snippet displays a search result, including the title, URL, and a brief description of the search result. */
+  renderedContent?: string;
+  /** Optional. A base64-encoded JSON object that contains a list of search queries and their corresponding search URLs. This information can be used to build a custom search UI. */
+  sdkBlob?: string;
+}
+
+/** A URI that can be used to flag a place or review for inappropriate content. This is populated only when the grounding source is Google Maps. */
+export declare interface GroundingMetadataSourceFlaggingUri {
+  /** The URI that can be used to flag the content. */
+  flagContentUri?: string;
+  /** The ID of the place or review. */
+  sourceId?: string;
+}
+
+/** Information about the sources that support the content of a response. When grounding is enabled, the model returns citations for claims in the response. This object contains the retrieved sources. */
+export declare interface GroundingMetadata {
+  /** Optional. Output only. Deprecated: The Google Maps contextual widget behavior in Grounding with Google Maps is being deprecated; this field is planned for removal and will no longer be populated once removed. A token that can be used to render a Google Maps widget with the contextual data. This field is populated only when the grounding source is Google Maps. */
+  googleMapsWidgetContextToken?: string;
+  /** A list of supporting references retrieved from the grounding source. This field is populated when the grounding source is Google Search, Vertex AI Search, or Google Maps. */
+  groundingChunks?: GroundingChunk[];
+  /** Optional. A list of grounding supports that connect the generated content to the grounding chunks. This field is populated when the grounding source is Google Search or Vertex AI Search. */
+  groundingSupports?: GroundingSupport[];
+  /** Optional. The image search queries that were used to generate the content. This field is populated only when the grounding source is Google Search with the Image Search search_type enabled. */
+  imageSearchQueries?: string[];
+  /** Optional. Output only. Metadata related to the retrieval grounding source. */
+  retrievalMetadata?: RetrievalMetadata;
+  /** Optional. The queries that were executed by the retrieval tools. This field is populated only when the grounding source is a retrieval tool, such as Vertex AI Search. */
+  retrievalQueries?: string[];
+  /** Optional. A web search entry point that can be used to display search results. This field is populated only when the grounding source is Google Search. */
+  searchEntryPoint?: SearchEntryPoint;
+  /** Optional. Output only. A list of URIs that can be used to flag a place or review for inappropriate content. This field is populated only when the grounding source is Google Maps. */
+  sourceFlaggingUris?: GroundingMetadataSourceFlaggingUri[];
+  /** Optional. The web search queries that were used to generate the content. This field is populated only when the grounding source is Google Search. */
+  webSearchQueries?: string[];
+}
+
+/** Metadata the model returned alongside the content it generated. */
+export declare interface SchemaPromptSpecContentMetadata {
+  /** Optional. Citations that apply to the content. */
+  citationMetadata?: CitationMetadata;
+  /** Optional. Sources used to ground the content. */
+  groundingMetadata?: GroundingMetadata;
+}
+
 /** Represents a structured prompt. */
 export declare interface SchemaPromptSpecStructuredPrompt {
   /** Preamble: The context of the prompt. */
@@ -3852,6 +4070,8 @@ export declare interface SchemaPromptSpecStructuredPrompt {
   promptMessage?: SchemaPromptSpecPromptMessage;
   /** Data for interaction use case. */
   interactionData?: SchemaPromptSpecInteractionData;
+  /** Optional. Metadata the model returned with each of `prompt_message.contents`, such as citations and grounding sources. This maps 1:1 to PromptMessage.contents; an entry is empty when its content has no metadata. */
+  contentMetadata?: SchemaPromptSpecContentMetadata[];
 }
 
 /** A pair of sentences used as reference in source and target languages. */
