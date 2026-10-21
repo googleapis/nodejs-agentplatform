@@ -64,7 +64,7 @@ export enum ManagedTopicEnum {
   EXPLICIT_INSTRUCTIONS = 'EXPLICIT_INSTRUCTIONS',
 }
 
-/** The type of the memory. */
+/** Represents the type of the memory. If not set, the `NATURAL_LANGUAGE_COLLECTION` type is used. If `STRUCTURED_COLLECTION` or `STRUCTURED_PROFILE` is used, then `structured_data` must be provided. */
 export enum MemoryType {
   /**
    * Represents an unspecified memory type. This value should not be used.
