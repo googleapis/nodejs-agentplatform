@@ -579,6 +579,16 @@ export declare interface ReasoningEngineSpecSourceCodeSpecPythonSpec {
   version?: string;
 }
 
+/** Specifies source code to be fetched from a public Git repository. */
+export declare interface ReasoningEngineSpecSourceCodeSpecGitSource {
+  /** Optional. Directory, relative to the source root, in which to run the build. */
+  dir?: string;
+  /** Required. The revision to fetch from the Git repository: a branch, a tag, or a full commit SHA. Abbreviated commit SHAs are not supported. */
+  revision?: string;
+  /** Required. The HTTPS URL of the public Git repository to clone. */
+  url?: string;
+}
+
 /** Specification for deploying from source code. */
 export declare interface ReasoningEngineSpecSourceCodeSpec {
   /** Source code is generated from the agent config. */
@@ -591,6 +601,8 @@ export declare interface ReasoningEngineSpecSourceCodeSpec {
   inlineSource?: ReasoningEngineSpecSourceCodeSpecInlineSource;
   /** Configuration for a Python application. */
   pythonSpec?: ReasoningEngineSpecSourceCodeSpecPythonSpec;
+  /** Source code is in a public Git repository. */
+  gitSource?: ReasoningEngineSpecSourceCodeSpecGitSource;
 }
 
 /** Specification for deploying from a container image. */
@@ -3777,6 +3789,12 @@ export declare interface SchemaPromptInstancePromptExecution {
   arguments?: Record<string, SchemaPromptInstanceVariableValue>;
 }
 
+/** Configuration for persisting output assets to external storage. */
+export declare interface SchemaPromptSpecPromptMessageOutputConfig {
+  /** Optional. The Cloud Storage URI prefix or directory where generated media assets should be written (e.g. `gs://my-bucket/prefix/`). */
+  outputUriPrefix?: string;
+}
+
 /** Represents a prompt message. */
 export declare interface SchemaPromptSpecPromptMessage {
   /** Generation config. */
@@ -3794,6 +3812,8 @@ export declare interface SchemaPromptSpecPromptMessage {
   variables?: Record<string, genaiTypes.Part>[];
   /** The model name. */
   model?: string;
+  /** Optional. Configuration for persisting output assets to external storage. */
+  outputConfig?: SchemaPromptSpecPromptMessageOutputConfig;
 }
 
 /** Prompt variation that embeds preambles to prompt string. */
