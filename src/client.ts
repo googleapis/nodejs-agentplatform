@@ -9,6 +9,7 @@ import {AgentEngines} from './agentengines';
 import {Sandboxes} from './sandboxes';
 import {Skills} from './skills';
 import {Prompts} from './prompts';
+import {Detections} from './detections';
 
 export const SDK_VERSION = '0.17.0';  // x-release-please-version
 
@@ -19,6 +20,7 @@ export class Client {
   public readonly _agentEnginesInternal: AgentEngines;
   public readonly skills: Skills;
   public readonly prompts: Prompts;
+  public readonly detections: Detections;
 
   constructor(
       options: {project?: string; location?: string; apiEndpoint?: string;}) {
@@ -65,6 +67,7 @@ export class Client {
     this._agentEnginesInternal = new AgentEngines(this.apiClient);
     this.skills = new Skills(this.apiClient);
     this.prompts = new Prompts(this.apiClient);
+    this.detections = new Detections(this.apiClient);
   }
 
   /**
