@@ -64,7 +64,7 @@ export enum ManagedTopicEnum {
   EXPLICIT_INSTRUCTIONS = 'EXPLICIT_INSTRUCTIONS',
 }
 
-/** The type of the memory. */
+/** Represents the type of the memory. If not set, the `NATURAL_LANGUAGE_COLLECTION` type is used. If `STRUCTURED_COLLECTION` or `STRUCTURED_PROFILE` is used, then `structured_data` must be provided. */
 export enum MemoryType {
   /**
    * Represents an unspecified memory type. This value should not be used.
@@ -2456,8 +2456,7 @@ export declare interface SandboxEnvironmentConnectionInfo {
 
 /** A sandbox environment. */
 export declare interface SandboxEnvironment {
-  /** Expiration time of the sandbox environment.
-   */
+  /** Optional. Timestamp in UTC of when this SandboxEnvironment is considered expired. This is *always* provided on output, regardless of what `expiration` was sent on input. */
   expireTime?: string;
   /** Output only. The connection information of the SandboxEnvironment. */
   connectionInfo?: SandboxEnvironmentConnectionInfo;
@@ -2977,10 +2976,9 @@ export declare interface CreateSandboxEnvironmentSnapshotRequestParameters {
 
 /** A sandbox environment snapshot. */
 export declare interface SandboxEnvironmentSnapshot {
-  /** The display name of the sandbox environment snapshot. */
+  /** Required. The display name of the SandboxEnvironmentSnapshot. */
   displayName?: string;
-  /** Expiration time of the sandbox environment snapshot.
-   */
+  /** Optional. Timestamp in UTC of when this SandboxEnvironmentSnapshot is considered expired. This is *always* provided on output, regardless of what `expiration` was sent on input. */
   expireTime?: string;
   /** Output only. The timestamp when this SandboxEnvironmentSnapshot was created. */
   createTime?: string;
