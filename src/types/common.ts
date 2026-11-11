@@ -248,6 +248,22 @@ export enum SandboxEnvironmentTemplateState {
   FAILED = 'FAILED',
 }
 
+/** The strategy for updating warm pool instances when the template is updated. */
+export enum UpdateStrategy {
+  /**
+   * Unspecified update strategy. Defaults to ON_REPLENISH.
+   */
+  UPDATE_STRATEGY_UNSPECIFIED = 'UPDATE_STRATEGY_UNSPECIFIED',
+  /**
+   * Existing warm pool pods are left running and new pods use the updated template as the warm pool is replenished.
+   */
+  ON_REPLENISH = 'ON_REPLENISH',
+  /**
+   * Existing warm pool pods are recreated immediately with the updated template.
+   */
+  RECREATE = 'RECREATE',
+}
+
 /** Input only. Action to take on the source SandboxEnvironment after the snapshot is taken. This field is only used in CreateSandboxEnvironmentSnapshotRequest and it is not stored in the resource. */
 export enum PostSnapshotAction {
   /**
@@ -2814,6 +2830,14 @@ export declare interface SandboxEnvironmentTemplatePersistentDiskConfig {
   sizeGb?: string;
 }
 
+/** Configuration for a warm pool of sandbox instances. */
+export declare interface SandboxEnvironmentTemplateWarmPoolConfig {
+  /** Optional. The target number of pre-warmed instances to maintain. */
+  targetInstanceCount?: number;
+  /** Optional. The strategy for updating warm pool instances when the template is updated. */
+  updateStrategy?: UpdateStrategy;
+}
+
 /** A sandbox environment template. */
 export declare interface SandboxEnvironmentTemplate {
   /** Output only. The timestamp when this SandboxEnvironmentTemplate was created. */
@@ -2838,6 +2862,8 @@ export declare interface SandboxEnvironmentTemplate {
   useGkeTd?: boolean;
   /** Optional. Configuration for attaching a persistent disk (PD) to each SandboxEnvironment created from this template. When unset (or when `enabled` is `false`), sandboxes created from this template are not backed by a persistent disk and rely on ephemeral storage only. See PersistentDiskConfig for details. */
   persistentDiskConfig?: SandboxEnvironmentTemplatePersistentDiskConfig;
+  /** Optional. The configuration for the warm pool of this template. */
+  warmPoolConfig?: SandboxEnvironmentTemplateWarmPoolConfig;
 }
 
 /** Operation that has an agent engine sandbox as a response. */
