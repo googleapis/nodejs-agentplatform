@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.18.0](https://github.com/googleapis/nodejs-agentplatform/compare/v0.17.0...v0.18.0) (2026-11-13)
+
+
+### Features
+
+* Add missing enum values to FinishReason and ReinforcementTuningThinkingLevel ([11d495a](https://github.com/googleapis/nodejs-agentplatform/commit/11d495a412866b041a9c8ea788c78a46390e6b3b))
+* update discovery doc ([aee2f12](https://github.com/googleapis/nodejs-agentplatform/commit/aee2f124b440188172cee565badd1d098a8f07db))
+
 ## [0.17.0](https://github.com/googleapis/nodejs-agentplatform/compare/v0.16.0...v0.17.0) (2026-11-05)
 
 
