@@ -39,8 +39,10 @@ if [[ $KOKORO_BUILD_ARTIFACTS_SUBDIR = *"continuous"* ]] || [[ $KOKORO_BUILD_ART
   export MOCHA_REPORTER_OUTPUT=test_output_sponge_log.xml
   export MOCHA_REPORTER=xunit
   cleanup() {
-    chmod +x $KOKORO_GFILE_DIR/linux_amd64/flakybot
-    $KOKORO_GFILE_DIR/linux_amd64/flakybot
+    if [[ -f $KOKORO_GFILE_DIR/linux_amd64/flakybot ]]; then
+      chmod +x $KOKORO_GFILE_DIR/linux_amd64/flakybot
+      $KOKORO_GFILE_DIR/linux_amd64/flakybot
+    fi
   }
   trap cleanup EXIT HUP
 fi
