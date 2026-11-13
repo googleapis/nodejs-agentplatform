@@ -665,7 +665,7 @@ export declare interface MemoryBankCustomizationConfigGenerateMemoriesExampleCon
   events?: MemoryBankCustomizationConfigGenerateMemoriesExampleConversationSourceEvent[];
 }
 
-/** The topic ID for a memory. */
+/** A memory topic identifier. This will be used to label a Memory and to restrict which topics are eligible for generation or retrieval. */
 export declare interface MemoryTopicId {
   /** Optional. Represents the custom memory topic label. */
   customMemoryTopicLabel?: string;
@@ -717,7 +717,7 @@ export declare interface MemoryBankCustomizationConfigConsolidationConfig {
   revisionsPerCandidateCount?: number;
 }
 
-/** Represents configuration for organizing natural language memories. */
+/** Represents configuration for organizing natural language memories for a particular scope. */
 export declare interface MemoryBankCustomizationConfig {
   /** Optional. Indicates whether the memories will be generated in the third person (i.e. "The user generates memories with Memory Bank."). By default, the memories will be generated in the first person (i.e. "I generate memories with Memory Bank.") */
   enableThirdPersonMemories?: boolean;
@@ -1797,16 +1797,6 @@ export declare interface DeleteMemoryOperation {
   error?: Record<string, unknown>;
 }
 
-/** The vertex session source for generating memories. */
-export declare interface GenerateMemoriesRequestVertexSessionSource {
-  /** Optional. End time (exclusive) of the time range. If not set, the end time is unbounded. */
-  endTime?: string;
-  /** Required. The resource name of the Session to generate memories for. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}` */
-  session?: string;
-  /** Optional. Time range to define which session events should be used to generate memories. Start time (inclusive) of the time range. If not set, the start time is unbounded. */
-  startTime?: string;
-}
-
 export declare interface GenerateMemoriesRequestDirectContentsSourceEvent {
   /** Required. A single piece of content from which to generate memories. */
   content?: genaiTypes.Content;
@@ -1816,20 +1806,6 @@ export declare interface GenerateMemoriesRequestDirectContentsSourceEvent {
 export declare interface GenerateMemoriesRequestDirectContentsSource {
   /** Required. The source content (i.e. chat history) to generate memories from. */
   events?: GenerateMemoriesRequestDirectContentsSourceEvent[];
-}
-
-/** A direct memory to upload to Memory Bank. */
-export declare interface GenerateMemoriesRequestDirectMemoriesSourceDirectMemory {
-  /** Required. The fact to consolidate with existing memories. */
-  fact?: string;
-  /** Optional. The topics that the consolidated memories should be associated with. */
-  topics?: MemoryTopicId[];
-}
-
-/** The direct memories source for generating memories. */
-export declare interface GenerateMemoriesRequestDirectMemoriesSource {
-  /** Required. The direct memories to upload to Memory Bank. At most 5 direct memories are allowed per request. */
-  directMemories?: GenerateMemoriesRequestDirectMemoriesSourceDirectMemory[];
 }
 
 /** Config for generating memories. */
@@ -1866,6 +1842,30 @@ export declare interface GenerateMemoriesConfig {
   metadataMergeStrategy?: MemoryMetadataMergeStrategy;
   /** Optional. Restricts memory generation to a subset of memory topics. */
   allowedTopics?: MemoryTopicId[];
+}
+
+/** Defines an Agent Engine Session from which to generate the memories. If `scope` is not provided, the scope will be extracted from the Session (i.e. {"user_id": sesison.user_id}). */
+export declare interface GenerateMemoriesRequestVertexSessionSource {
+  /** Optional. End time (exclusive) of the time range. If not set, the end time is unbounded. */
+  endTime?: string;
+  /** Required. The resource name of the Session to generate memories for. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}` */
+  session?: string;
+  /** Optional. Time range to define which session events should be used to generate memories. Start time (inclusive) of the time range. If not set, the start time is unbounded. */
+  startTime?: string;
+}
+
+/** A direct memory to upload to Memory Bank. */
+export declare interface GenerateMemoriesRequestDirectMemoriesSourceDirectMemory {
+  /** Required. The fact to consolidate with existing memories. */
+  fact?: string;
+  /** Optional. The topics that the consolidated memories should be associated with. */
+  topics?: MemoryTopicId[];
+}
+
+/** Defines a direct source of memories that should be uploaded to Memory Bank with consolidation. */
+export declare interface GenerateMemoriesRequestDirectMemoriesSource {
+  /** Required. The direct memories to upload to Memory Bank. At most 5 direct memories are allowed per request. */
+  directMemories?: GenerateMemoriesRequestDirectMemoriesSourceDirectMemory[];
 }
 
 /** Parameters for generating memories. */
@@ -2001,22 +2001,6 @@ export declare interface GetGenerateMemoriesOperationParameters {
   config?: GetMemoryBankOperationConfig;
 }
 
-/** The parameters for semantic similarity search based retrieval. */
-export declare interface RetrieveMemoriesRequestSimilaritySearchParams {
-  /** Required. Query to use for similarity search retrieval. If provided, then the parent ReasoningEngine must have ReasoningEngineContextSpec.MemoryBankConfig.SimilaritySearchConfig set. */
-  searchQuery?: string;
-  /** Optional. The maximum number of memories to return. The service may return fewer than this value. If unspecified, at most 3 memories will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  topK?: number;
-}
-
-/** The parameters for simple (non-similarity search) retrieval. */
-export declare interface RetrieveMemoriesRequestSimpleRetrievalParams {
-  /** Optional. The maximum number of memories to return. The service may return fewer than this value. If unspecified, at most 3 memories will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous `RetrieveMemories` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
-}
-
 /** Filter to apply when retrieving memories. */
 export declare interface MemoryFilter {
   /** Represents the key of the filter. For example, "author" would apply to `metadata` entries with the key "author". */
@@ -2029,7 +2013,7 @@ export declare interface MemoryFilter {
   value?: MemoryMetadataValue;
 }
 
-/** The conjunction filter for memories. */
+/** A conjunction of filters that will be combined using AND logic. */
 export declare interface MemoryConjunctionFilter {
   /** Represents filters that will be combined using AND logic. */
   filters?: MemoryFilter[];
@@ -2075,6 +2059,22 @@ export declare interface RetrieveMemoriesConfig {
       type `NATURAL_LANGUAGE_COLLECTION`. If populated, the request will
       retrieve memories matching any of the specified `MemoryType` values. */
   memoryTypes?: MemoryType[];
+}
+
+/** Parameters for semantic similarity search based retrieval. */
+export declare interface RetrieveMemoriesRequestSimilaritySearchParams {
+  /** Required. Query to use for similarity search retrieval. If provided, then the parent ReasoningEngine must have ReasoningEngineContextSpec.MemoryBankConfig.SimilaritySearchConfig set. */
+  searchQuery?: string;
+  /** Optional. The maximum number of memories to return. The service may return fewer than this value. If unspecified, at most 3 memories will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  topK?: number;
+}
+
+/** Parameters for simple (non-similarity search) retrieval. */
+export declare interface RetrieveMemoriesRequestSimpleRetrievalParams {
+  /** Optional. The maximum number of memories to return. The service may return fewer than this value. If unspecified, at most 3 memories will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number;
+  /** Optional. A page token, received from a previous `RetrieveMemories` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
 }
 
 /** Parameters for retrieving memories. */
@@ -2392,32 +2392,6 @@ export class ListMemoryRevisionsResponse {
   memoryRevisions?: MemoryRevision[];
 }
 
-/** The code execution environment with customized settings. */
-export declare interface SandboxEnvironmentSpecCodeExecutionEnvironment {
-  /** The coding language supported in this environment. */
-  codeLanguage?: Language;
-  /** The machine config of the code execution environment. */
-  machineConfig?: MachineConfig;
-}
-
-/** The computer use environment with customized settings. */
-export declare interface SandboxEnvironmentSpecComputerUseEnvironment {}
-
-/** The shell environment. */
-export declare interface SandboxEnvironmentSpecShellEnvironment {}
-
-/** The specification of a sandbox environment. */
-export declare interface SandboxEnvironmentSpec {
-  /** Optional. The code execution environment. */
-  codeExecutionEnvironment?: SandboxEnvironmentSpecCodeExecutionEnvironment;
-  /** Optional. The computer use environment. */
-  computerUseEnvironment?: SandboxEnvironmentSpecComputerUseEnvironment;
-  /** Optional. The shell environment for executing shell commands and scripts. */
-  shellEnvironment?: SandboxEnvironmentSpecShellEnvironment;
-  /** Optional. Immutable. Whether to provision the SandboxEnvironment via the GKE TD pool. Immutable. */
-  useGkeTd?: boolean;
-}
-
 /** Config for creating a Sandbox. */
 export declare interface CreateAgentEngineSandboxConfig {
   /** Used to override HTTP request options. */
@@ -2445,6 +2419,32 @@ export declare interface CreateAgentEngineSandboxConfig {
   sandboxEnvironmentSnapshot?: string;
   /** Owner information for this sandbox environment. A sandbox can only be restored from a snapshot belonging to the same owner. */
   owner?: string;
+}
+
+/** The code execution environment with customized settings. */
+export declare interface SandboxEnvironmentSpecCodeExecutionEnvironment {
+  /** The coding language supported in this environment. */
+  codeLanguage?: Language;
+  /** The machine config of the code execution environment. */
+  machineConfig?: MachineConfig;
+}
+
+/** The computer use environment with customized settings. */
+export declare interface SandboxEnvironmentSpecComputerUseEnvironment {}
+
+/** The shell environment. */
+export declare interface SandboxEnvironmentSpecShellEnvironment {}
+
+/** The specification of a SandboxEnvironment. */
+export declare interface SandboxEnvironmentSpec {
+  /** Optional. The code execution environment. */
+  codeExecutionEnvironment?: SandboxEnvironmentSpecCodeExecutionEnvironment;
+  /** Optional. The computer use environment. */
+  computerUseEnvironment?: SandboxEnvironmentSpecComputerUseEnvironment;
+  /** Optional. The shell environment for executing shell commands and scripts. */
+  shellEnvironment?: SandboxEnvironmentSpecShellEnvironment;
+  /** Optional. Immutable. Whether to provision the SandboxEnvironment via the GKE TD pool. Immutable. */
+  useGkeTd?: boolean;
 }
 
 /** Parameters for creating Agent Engine Sandboxes. */
@@ -2547,23 +2547,6 @@ export declare interface DeleteAgentEngineSandboxOperation {
   error?: Record<string, unknown>;
 }
 
-/** Metadata for a chunk. */
-export declare interface Metadata {
-  /** Optional. Attributes attached to the data. The keys have semantic conventions and the consumers of the attributes should know how to deserialize the value bytes based on the keys. */
-  attributes?: Record<string, string>;
-}
-
-/** A chunk of data. */
-export declare interface Chunk {
-  /** Required. The data in the chunk.
-   * @remarks Encoded as base64 string. */
-  data?: string;
-  /** Optional. Metadata that is associated with the data in the payload. */
-  metadata?: Metadata;
-  /** Required. Mime type of the chunk data. See https://www.iana.org/assignments/media-types/media-types.xhtml for the full list. */
-  mimeType?: string;
-}
-
 /** Config for executing code in an Agent Engine sandbox. */
 export declare interface ExecuteCodeAgentEngineSandboxConfig {
   /** Used to override HTTP request options. */
@@ -2575,6 +2558,23 @@ export declare interface ExecuteCodeAgentEngineSandboxConfig {
   be charged usage for any applicable operations.
        */
   abortSignal?: AbortSignal;
+}
+
+/** Metadata for a chunk. */
+export declare interface Metadata {
+  /** Optional. Attributes attached to the data. The keys have semantic conventions and the consumers of the attributes should know how to deserialize the value bytes based on the keys. */
+  attributes?: Record<string, string>;
+}
+
+/** Container for bytes-encoded data such as video frame, audio sample, or a complete binary/text data. */
+export declare interface Chunk {
+  /** Required. The data in the chunk.
+   * @remarks Encoded as base64 string. */
+  data?: string;
+  /** Optional. Metadata that is associated with the data in the payload. */
+  metadata?: Metadata;
+  /** Required. Mime type of the chunk data. See https://www.iana.org/assignments/media-types/media-types.xhtml for the full list. */
+  mimeType?: string;
 }
 
 /** Parameters for executing code in an agent engine sandbox. */
@@ -3346,22 +3346,6 @@ export declare interface UpdateAgentEngineSessionRequestParameters {
   config?: UpdateAgentEngineSessionConfig;
 }
 
-/** Actions are parts of events that are executed by the agent. */
-export declare interface EventActions {
-  /** Optional. Indicates that the event is updating an artifact. key is the filename, value is the version. */
-  artifactDelta?: Record<string, number>;
-  /** Optional. The agent is escalating to a higher level agent. */
-  escalate?: boolean;
-  /** Optional. Will only be set by a tool response indicating tool request euc. Struct key is the function call id since one function call response (from model) could correspond to multiple function calls. Struct value is the required auth config, which can be another struct. */
-  requestedAuthConfigs?: Record<string, unknown>;
-  /** Optional. If true, it won't call model to summarize function response. Only used for function_response event. */
-  skipSummarization?: boolean;
-  /** Optional. Indicates that the event is updating the state with the given delta. */
-  stateDelta?: Record<string, unknown>;
-  /** Optional. If set, the event transfers to the specified agent. */
-  transferAgent?: string;
-}
-
 /** Metadata relating to a LLM response event. */
 export declare interface EventMetadata {
   /** Optional. Metadata returned to client when grounding is enabled. */
@@ -3382,6 +3366,22 @@ export declare interface EventMetadata {
   inputTranscription?: genaiTypes.Transcription;
   /** Optional. Audio transcription of model output. */
   outputTranscription?: genaiTypes.Transcription;
+}
+
+/** Actions are parts of events that are executed by the agent. */
+export declare interface EventActions {
+  /** Optional. Indicates that the event is updating an artifact. key is the filename, value is the version. */
+  artifactDelta?: Record<string, number>;
+  /** Optional. The agent is escalating to a higher level agent. */
+  escalate?: boolean;
+  /** Optional. Will only be set by a tool response indicating tool request euc. Struct key is the function call id since one function call response (from model) could correspond to multiple function calls. Struct value is the required auth config, which can be another struct. */
+  requestedAuthConfigs?: Record<string, unknown>;
+  /** Optional. If true, it won't call model to summarize function response. Only used for function_response event. */
+  skipSummarization?: boolean;
+  /** Optional. Indicates that the event is updating the state with the given delta. */
+  stateDelta?: Record<string, unknown>;
+  /** Optional. If set, the event transfers to the specified agent. */
+  transferAgent?: string;
 }
 
 /** Config for appending agent engine session event. */
@@ -3775,6 +3775,19 @@ export class ListSkillRevisionsResponse {
   nextPageToken?: string;
   /** List of Skill Revisions. */
   skillRevisions?: SkillRevision[];
+}
+
+/** Config for creating a dataset resource to store prompts. */
+export declare interface CreateDatasetConfig {
+  /** Used to override HTTP request options. */
+  httpOptions?: genaiTypes.HttpOptions;
+  /** Abort signal which can be used to cancel the request.
+
+  NOTE: AbortSignal is a client-only operation. Using it to cancel an
+  operation will not cancel the request in the service. You will still
+  be charged usage for any applicable operations.
+       */
+  abortSignal?: AbortSignal;
 }
 
 /** Single source entry for the grounding checking. */
@@ -4197,7 +4210,7 @@ export declare interface SchemaPromptApiSchema {
   translationPrompt?: SchemaPromptSpecTranslationPrompt;
 }
 
-/** Represents the text prompt dataset metadata. */
+/** The metadata of Datasets that contain Text Prompt data. */
 export declare interface SchemaTextPromptDatasetMetadata {
   /** Number of candidates. */
   candidateCount?: string;
@@ -4235,19 +4248,6 @@ export declare interface SchemaTextPromptDatasetMetadata {
   topK?: string;
   /** Top P value set when the dataset was saved. Given topK tokens for decoding, top candidates will be selected until the sum of their probabilities is topP. */
   topP?: number;
-}
-
-/** Config for creating a dataset resource to store prompts. */
-export declare interface CreateDatasetConfig {
-  /** Used to override HTTP request options. */
-  httpOptions?: genaiTypes.HttpOptions;
-  /** Abort signal which can be used to cancel the request.
-
-  NOTE: AbortSignal is a client-only operation. Using it to cancel an
-  operation will not cancel the request in the service. You will still
-  be charged usage for any applicable operations.
-       */
-  abortSignal?: AbortSignal;
 }
 
 /** Parameters for creating a dataset resource to store prompts. */
