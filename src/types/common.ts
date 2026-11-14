@@ -424,6 +424,194 @@ export enum SkillRevisionState {
   DELETING = 'DELETING',
 }
 
+/** Categorical likelihood that the content was generated or modified by AI. */
+export enum AiGeneratedLikelihood {
+  /**
+   * Default unspecified likelihood.
+   */
+  AI_GENERATED_LIKELIHOOD_UNSPECIFIED = 'AI_GENERATED_LIKELIHOOD_UNSPECIFIED',
+  /**
+   * Very low likelihood that the content is AI-generated or AI-modified.
+   */
+  VERY_LOW = 'VERY_LOW',
+  /**
+   * Low likelihood that the content is AI-generated or AI-modified.
+   */
+  LOW = 'LOW',
+  /**
+   * Medium likelihood that the content is AI-generated or AI-modified.
+   */
+  MEDIUM = 'MEDIUM',
+  /**
+   * High likelihood that the content is AI-generated or AI-modified.
+   */
+  HIGH = 'HIGH',
+  /**
+   * Very high likelihood that the content is AI-generated or AI-modified.
+   */
+  VERY_HIGH = 'VERY_HIGH',
+}
+
+/** Outcome of C2PA Content Credentials verification. */
+export enum C2paResultOutcome {
+  /**
+   * Default unspecified outcome.
+   */
+  OUTCOME_UNSPECIFIED = 'OUTCOME_UNSPECIFIED',
+  /**
+   * Valid C2PA Content Credentials manifest detected and verified.
+   */
+  VALID_MANIFEST = 'VALID_MANIFEST',
+  /**
+   * No C2PA Content Credentials manifest found in the media.
+   */
+  NOT_DETECTED = 'NOT_DETECTED',
+  /**
+   * C2PA manifest was found but failed cryptographic or structural validation.
+   */
+  INVALID_MANIFEST = 'INVALID_MANIFEST',
+  /**
+   * Media format is not supported for C2PA extraction.
+   */
+  UNSUPPORTED_FORMAT = 'UNSUPPORTED_FORMAT',
+}
+
+/** IPTC Digital Source Type creation classification recorded in the C2PA manifest. */
+export enum C2paResultManifestCreationType {
+  /**
+   * Default unspecified creation type.
+   */
+  CREATION_TYPE_UNSPECIFIED = 'CREATION_TYPE_UNSPECIFIED',
+  /**
+   * Media of unknown provenance.
+   */
+  MEDIA_OF_UNKNOWN_PROVENANCE = 'MEDIA_OF_UNKNOWN_PROVENANCE',
+  /**
+   * Blank file.
+   */
+  BLANK_FILE = 'BLANK_FILE',
+  /**
+   * Real-life capture (e.g., camera or microphone).
+   */
+  REAL_LIFE_CAPTURE = 'REAL_LIFE_CAPTURE',
+  /**
+   * Real-life capture with in-line non-GenAI enhancements.
+   */
+  REAL_LIFE_CAPTURE_WITH_IN_LINE_NON_GENAI_ENHANCEMENTS = 'REAL_LIFE_CAPTURE_WITH_IN_LINE_NON_GENAI_ENHANCEMENTS',
+  /**
+   * Real-life stitched capture (e.g., panorama).
+   */
+  REAL_LIFE_STITCHED_CAPTURE = 'REAL_LIFE_STITCHED_CAPTURE',
+  /**
+   * Partly GenAI creation.
+   */
+  PARTLY_GENAI_CREATION = 'PARTLY_GENAI_CREATION',
+  /**
+   * Fully GenAI creation.
+   */
+  FULLY_GENAI_CREATION = 'FULLY_GENAI_CREATION',
+  /**
+   * Non-GenAI digital creation.
+   */
+  NON_GENAI_DIGITAL_CREATION = 'NON_GENAI_DIGITAL_CREATION',
+  /**
+   * Composition which may contain GenAI content.
+   */
+  COMPOSITION_WHICH_MAY_CONTAIN_GENAI_CONTENT = 'COMPOSITION_WHICH_MAY_CONTAIN_GENAI_CONTENT',
+  /**
+   * Digital art which may contain GenAI content.
+   */
+  DIGITAL_ART_WHICH_MAY_CONTAIN_GENAI_CONTENT = 'DIGITAL_ART_WHICH_MAY_CONTAIN_GENAI_CONTENT',
+  /**
+   * Screen capture which may contain GenAI content.
+   */
+  SCREEN_CAPTURE_WHICH_MAY_CONTAIN_GENAI_CONTENT = 'SCREEN_CAPTURE_WHICH_MAY_CONTAIN_GENAI_CONTENT',
+}
+
+/** C2PA edit action recorded in the manifest history. */
+export enum C2paResultManifestAction {
+  /**
+   * Default unspecified action.
+   */
+  ACTION_UNSPECIFIED = 'ACTION_UNSPECIFIED',
+  /**
+   * Adjusted color using GenAI tools.
+   */
+  ADJUSTED_COLOR_USING_GENAI_TOOLS = 'ADJUSTED_COLOR_USING_GENAI_TOOLS',
+  /**
+   * Adjusted color using non-GenAI tools.
+   */
+  ADJUSTED_COLOR_USING_NON_GENAI_TOOLS = 'ADJUSTED_COLOR_USING_NON_GENAI_TOOLS',
+  /**
+   * Adjusted color using tools possibly powered by GenAI.
+   */
+  ADJUSTED_COLOR_USING_TOOLS_POSSIBLY_POWERED_BY_GENAI = 'ADJUSTED_COLOR_USING_TOOLS_POSSIBLY_POWERED_BY_GENAI',
+  /**
+   * Changed orientation.
+   */
+  CHANGED_ORIENTATION = 'CHANGED_ORIENTATION',
+  /**
+   * Cropped using GenAI tools.
+   */
+  CROPPED_USING_GENAI_TOOLS = 'CROPPED_USING_GENAI_TOOLS',
+  /**
+   * Cropped using non-GenAI tools.
+   */
+  CROPPED_USING_NON_GENAI_TOOLS = 'CROPPED_USING_NON_GENAI_TOOLS',
+  /**
+   * Cropped using tools possibly powered by GenAI.
+   */
+  CROPPED_USING_TOOLS_POSSIBLY_POWERED_BY_GENAI = 'CROPPED_USING_TOOLS_POSSIBLY_POWERED_BY_GENAI',
+  /**
+   * Deleted content using GenAI tools.
+   */
+  DELETED_CONTENT_USING_GENAI_TOOLS = 'DELETED_CONTENT_USING_GENAI_TOOLS',
+  /**
+   * Deleted content using non-GenAI tools.
+   */
+  DELETED_CONTENT_USING_NON_GENAI_TOOLS = 'DELETED_CONTENT_USING_NON_GENAI_TOOLS',
+  /**
+   * Deleted content using tools possibly powered by GenAI.
+   */
+  DELETED_CONTENT_USING_TOOLS_POSSIBLY_POWERED_BY_GENAI = 'DELETED_CONTENT_USING_TOOLS_POSSIBLY_POWERED_BY_GENAI',
+  /**
+   * Edited using GenAI tools.
+   */
+  EDITED_USING_GENAI_TOOLS = 'EDITED_USING_GENAI_TOOLS',
+  /**
+   * Edited using non-GenAI tools.
+   */
+  EDITED_USING_NON_GENAI_TOOLS = 'EDITED_USING_NON_GENAI_TOOLS',
+  /**
+   * Edited using tools possibly powered by GenAI.
+   */
+  EDITED_USING_TOOLS_POSSIBLY_POWERED_BY_GENAI = 'EDITED_USING_TOOLS_POSSIBLY_POWERED_BY_GENAI',
+  /**
+   * Edited metadata.
+   */
+  EDITED_METADATA = 'EDITED_METADATA',
+  /**
+   * Enhanced without changing content.
+   */
+  ENHANCED_WITHOUT_CHANGING_CONTENT = 'ENHANCED_WITHOUT_CHANGING_CONTENT',
+  /**
+   * Stylized using GenAI filters.
+   */
+  STYLIZED_USING_GENAI_FILTERS = 'STYLIZED_USING_GENAI_FILTERS',
+  /**
+   * Stylized using non-GenAI filters.
+   */
+  STYLIZED_USING_NON_GENAI_FILTERS = 'STYLIZED_USING_NON_GENAI_FILTERS',
+  /**
+   * Stylized using filters possibly powered by GenAI.
+   */
+  STYLIZED_USING_FILTERS_POSSIBLY_POWERED_BY_GENAI = 'STYLIZED_USING_FILTERS_POSSIBLY_POWERED_BY_GENAI',
+  /**
+   * Removed sensitive metadata.
+   */
+  REMOVED_SENSITIVE_METADATA = 'REMOVED_SENSITIVE_METADATA',
+}
+
 /** Represents an environment variable present in a Container or Python Module. */
 export declare interface EnvVar {
   /** Required. Name of the environment variable. Must be a valid C identifier. */
@@ -4594,6 +4782,71 @@ export declare interface UpdateDatasetParameters {
   encryptionSpec?: genaiTypes.EncryptionSpec;
   modelReference?: string;
   config?: UpdatePromptConfig;
+}
+
+/** Config for detecting AI-generated content. */
+export declare interface DetectContentConfig {
+  /** Used to override HTTP request options. */
+  httpOptions?: genaiTypes.HttpOptions;
+  /** Abort signal which can be used to cancel the request.
+
+  NOTE: AbortSignal is a client-only operation. Using it to cancel an
+  operation will not cancel the request in the service. You will still
+  be charged usage for any applicable operations.
+       */
+  abortSignal?: AbortSignal;
+}
+
+/** Parameters for the detect_content method. */
+export declare interface DetectContentParameters {
+  /** The name of the publisher model requested to serve the prediction.
+      Format: ``ai-content-detection``,
+      ``ai-content-detection@{version}``,
+      ``publishers/google/models/ai-content-detection``, or
+      ``projects/{project}/locations/{location}/publishers/{publisher}/models/{model}``. */
+  model: string;
+  /** Required. The image to analyze. Must contain exactly one
+      ``inline_data`` part with ``mime_type`` ``image/jpeg``, ``image/png``,
+      or ``image/webp``, at most 20 MiB. */
+  content: genaiTypes.Content;
+  /** Configuration that contains optional parameters. */
+  config?: DetectContentConfig;
+}
+
+/** Verified C2PA manifest metadata extracted from the media. */
+export declare interface C2paResultManifest {
+  /** Output only. Creation types asserted in the C2PA manifest. */
+  creationTypes?: C2paResultManifestCreationType[];
+  /** Output only. Actions recorded in the C2PA manifest. */
+  actions?: C2paResultManifestAction[];
+  /** Output only. Organization of the entity that signed the C2PA manifest. */
+  signerOrganization?: string;
+  /** Output only. Common name of the certificate that signed the C2PA manifest. */
+  signerCommonName?: string;
+  /** Output only. Claim generator software or hardware recorded in the C2PA manifest. */
+  claimGenerator?: string;
+  /** Output only. Timestamp when the C2PA manifest was signed. */
+  signTime?: string;
+}
+
+/** C2PA Content Credentials verification result for a media part. */
+export declare interface C2paResult {
+  /** Output only. Verification outcome for C2PA Content Credentials. */
+  outcome?: C2paResultOutcome;
+  /** Output only. Verified C2PA manifest details, populated when outcome is VALID_MANIFEST. */
+  manifest?: C2paResultManifest;
+}
+
+/** Response message for PredictionService.DetectContent. */
+export class DetectContentResponse {
+  /** Output only. Categorical likelihood that the content was generated or modified by AI. */
+  aiGeneratedLikelihood?: AiGeneratedLikelihood;
+  /** Output only. C2PA Content Credentials verification results. */
+  c2pa?: C2paResult[];
+  /** Output only. Unique identifier for the detection response. */
+  responseId?: string;
+  /** Output only. Version of the detection pipeline that produced the verdict (for example, ``ai-content-detection@001``). */
+  modelVersion?: string;
 }
 
 /** An agent engine instance. */
